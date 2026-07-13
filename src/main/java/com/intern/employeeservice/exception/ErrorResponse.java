@@ -10,7 +10,7 @@ public record ErrorResponse(
         List<String> details
 ) {
     public ErrorResponse(int status, String message) {
-        this(LocalDateTime.now(), status, message, null);
+        this(LocalDateTime.now(), status, message, List.of());
     }
 
     public ErrorResponse(int status, String message, List<String> details) {
