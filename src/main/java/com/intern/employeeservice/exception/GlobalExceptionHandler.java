@@ -1,6 +1,7 @@
 package com.intern.employeeservice.exception;
 
 import org.jspecify.annotations.NonNull;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -51,6 +52,13 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleUnexpected(@NonNull Exception e) {
         return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "An unexpected error occurred");
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleDataIntegrityViolation(@NonNull DataIntegrityViolationException e) {
+        return new ErrorResponse(HttpStatus.CONFLICT.value(),
+                "Employee with this SSN already exists");
     }
 
 }
