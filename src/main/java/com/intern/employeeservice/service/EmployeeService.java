@@ -32,7 +32,7 @@ public class EmployeeService {
         String ssnHash = ssnHashingService.hash(request.socialSecurityNumber());
 
         if (employeeRepository.existsBySocialSecurityNumberHash(ssnHash)) {
-            throw new EmployeeAlreadyExistsException("Employee with this SSN number already exists");
+            throw new EmployeeAlreadyExistsException("Employee with this SSN already exists");
         }
 
         Employee employee = new Employee();
