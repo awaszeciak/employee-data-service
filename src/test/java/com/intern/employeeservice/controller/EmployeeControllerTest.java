@@ -153,6 +153,8 @@ public class EmployeeControllerTest {
                         .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Employee with id 999999 not found"));
 
+        verify(employeeService).getEmployeeById(999999L);
+
     }
 
     @Test
@@ -173,6 +175,8 @@ public class EmployeeControllerTest {
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(jsonPath("$.message").value("Employee with this SSN already exists"))
                 .andExpect(status().isConflict());
+
+        verify(employeeService).createEmployee(any(EmployeeCreateRequest.class));
     }
 
     @Test

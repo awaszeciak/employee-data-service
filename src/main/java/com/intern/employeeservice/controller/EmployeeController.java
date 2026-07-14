@@ -4,6 +4,7 @@ import com.intern.employeeservice.dto.EmployeeCreateRequest;
 import com.intern.employeeservice.dto.EmployeeResponse;
 import com.intern.employeeservice.service.EmployeeService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public ResponseEntity<EmployeeResponse> createEmployee(@Valid @RequestBody Emplo
 }
 
 @GetMapping("/employees/{id}")
-public ResponseEntity<EmployeeResponse> getEmployeeById(@PathVariable Long id) {
+public ResponseEntity<EmployeeResponse> getEmployeeById(@PathVariable @Positive Long id) {
     EmployeeResponse response = employeeService.getEmployeeById(id);
 
     return ResponseEntity.ok(response);
