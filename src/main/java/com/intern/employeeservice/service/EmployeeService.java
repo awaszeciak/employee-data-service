@@ -4,6 +4,7 @@ import com.intern.employeeservice.dto.EmployeeCreateRequest;
 import com.intern.employeeservice.dto.EmployeeResponse;
 import com.intern.employeeservice.entity.Employee;
 import com.intern.employeeservice.exception.EmployeeAlreadyExistsException;
+import com.intern.employeeservice.exception.EmployeeNotFoundException;
 import com.intern.employeeservice.mapper.EmployeeMapper;
 import com.intern.employeeservice.repository.EmployeeRepository;
 import com.intern.employeeservice.security.SsnHashingService;
@@ -41,6 +42,12 @@ public class EmployeeService {
 
         Employee saved = employeeRepository.save(employee);
         return employeeMapper.toResponse(saved);
+    }
+
+    public EmployeeResponse findById(Long id) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee with id " + id + " not found"));
+        return employeeMapper.toResponse(employee);
     }
 
 }
