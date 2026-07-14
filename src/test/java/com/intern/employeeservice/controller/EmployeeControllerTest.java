@@ -199,4 +199,11 @@ public class EmployeeControllerTest {
 
 
     }
+
+    @Test
+    void shouldReturn400WhenIdIsNotANumber() throws Exception {
+        mockMvc.perform(get("/employees/abc"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Invalid value for parameter 'id'"));
+    }
 }
