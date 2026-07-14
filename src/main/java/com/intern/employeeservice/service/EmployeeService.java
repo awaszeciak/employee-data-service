@@ -11,6 +11,8 @@ import com.intern.employeeservice.security.SsnHashingService;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmployeeService {
 
@@ -44,10 +46,17 @@ public class EmployeeService {
         return employeeMapper.toResponse(saved);
     }
 
-    public EmployeeResponse findById(Long id) {
+    public EmployeeResponse getEmployeeById(Long id) {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee with id " + id + " not found"));
         return employeeMapper.toResponse(employee);
     }
+
+    public List<EmployeeResponse> getAllEmployees() {
+        List<Employee> employees = employeeRepository.findAll();
+        return employees.stream().map(employeeMapper::toResponse).toList();
+    }
+
+
 
 }

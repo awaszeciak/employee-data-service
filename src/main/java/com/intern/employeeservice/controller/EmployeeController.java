@@ -2,13 +2,13 @@ package com.intern.employeeservice.controller;
 
 import com.intern.employeeservice.dto.EmployeeCreateRequest;
 import com.intern.employeeservice.dto.EmployeeResponse;
-import com.intern.employeeservice.entity.Employee;
 import com.intern.employeeservice.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 public class EmployeeController {
@@ -28,9 +28,16 @@ public ResponseEntity<EmployeeResponse> createEmployee(@Valid @RequestBody Emplo
 
 @GetMapping("/employees/{id}")
 public ResponseEntity<EmployeeResponse> getEmployeeById(@PathVariable Long id) {
-    EmployeeResponse response = employeeService.findById(id);
+    EmployeeResponse response = employeeService.getEmployeeById(id);
 
     return ResponseEntity.ok(response);
+}
+
+@GetMapping("/employees")
+public ResponseEntity<List<EmployeeResponse>> getAllEmployees() {
+    List<EmployeeResponse> employeeResponses = employeeService.getAllEmployees();
+
+    return ResponseEntity.ok(employeeResponses);
 }
 
 
