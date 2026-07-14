@@ -51,24 +51,24 @@ public class EmployeeControllerTest {
                 1L,
                 "Anna",
                 "Nowak",
-                LocalDate.of(1995,4,12),
+                LocalDate.of(1995, 4, 12),
                 Gender.FEMALE
         );
 
         when(employeeService.createEmployee(any(EmployeeCreateRequest.class))).thenReturn(response);
 
         mockMvc.perform(post("/employees")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(request)))
-        .andExpect(status().isCreated())
-        .andExpect(header().string("Location", "/employees/1"))
-        .andExpect(jsonPath("$.id").value(1))
-        .andExpect(jsonPath("$.firstName").value("Anna"))
-        .andExpect(jsonPath("$.lastName").value("Nowak"))
-        .andExpect(jsonPath("$.dateOfBirth").value("1995-04-12"))
-        .andExpect(jsonPath("$.gender").value("FEMALE"))
-        .andExpect(jsonPath("$.socialSecurityNumber").doesNotExist())
-        .andExpect(jsonPath("$.socialSecurityNumberHash").doesNotExist());
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", "/employees/1"))
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.firstName").value("Anna"))
+                .andExpect(jsonPath("$.lastName").value("Nowak"))
+                .andExpect(jsonPath("$.dateOfBirth").value("1995-04-12"))
+                .andExpect(jsonPath("$.gender").value("FEMALE"))
+                .andExpect(jsonPath("$.socialSecurityNumber").doesNotExist())
+                .andExpect(jsonPath("$.socialSecurityNumberHash").doesNotExist());
 
         verify(employeeService).createEmployee(any(EmployeeCreateRequest.class));
 
@@ -82,7 +82,7 @@ public class EmployeeControllerTest {
                 1L,
                 "Anna",
                 "Nowak",
-                LocalDate.of(1995,4,12),
+                LocalDate.of(1995, 4, 12),
                 Gender.FEMALE
         );
 
@@ -108,7 +108,7 @@ public class EmployeeControllerTest {
                 1L,
                 "Anna",
                 "Nowak",
-                LocalDate.of(1995,4,12),
+                LocalDate.of(1995, 4, 12),
                 Gender.FEMALE
         );
 
@@ -116,7 +116,7 @@ public class EmployeeControllerTest {
                 2L,
                 "Adam",
                 "Kowalski",
-                LocalDate.of(1983,7,4),
+                LocalDate.of(1983, 7, 4),
                 Gender.MALE
         );
 
@@ -150,7 +150,7 @@ public class EmployeeControllerTest {
         when(employeeService.getEmployeeById(999999L)).thenThrow(new EmployeeNotFoundException("Employee with id 999999 not found"));
 
         mockMvc.perform(get("/employees/999999"))
-                        .andExpect(status().isNotFound())
+                .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Employee with id 999999 not found"));
 
         verify(employeeService).getEmployeeById(999999L);
@@ -171,8 +171,8 @@ public class EmployeeControllerTest {
                 .thenThrow(new EmployeeAlreadyExistsException("Employee with this SSN already exists"));
 
         mockMvc.perform(post("/employees").
-                contentType("application/json")
-                .content(objectMapper.writeValueAsString(request)))
+                        contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(jsonPath("$.message").value("Employee with this SSN already exists"))
                 .andExpect(status().isConflict());
 
@@ -191,8 +191,8 @@ public class EmployeeControllerTest {
         );
 
         mockMvc.perform(post("/employees")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(request)))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Validation failed"))
                 .andExpect(jsonPath("$.details").isArray());

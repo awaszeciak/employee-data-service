@@ -103,7 +103,7 @@ public class EmployeeServiceTest {
 
         verify(employeeRepository).save(argThat(employee ->
                 employee.getSocialSecurityNumberHash().equals(fakeHash)
-                && !request.socialSecurityNumber().equals(employee.getSocialSecurityNumberHash())
+                        && !request.socialSecurityNumber().equals(employee.getSocialSecurityNumberHash())
         ));
 
     }
@@ -119,7 +119,7 @@ public class EmployeeServiceTest {
         employee.setLastName("Kowalski");
         employee.setGender(Gender.MALE);
         employee.setDateOfBirth(LocalDate.of(1993, 4, 12));
-        employee.setSocialSecurityNumberHash("123456789");
+        employee.setSocialSecurityNumberHash("test-secret-key");
 
         EmployeeResponse expectedResponse = new EmployeeResponse(
                 1L, "Jan", "Kowalski", LocalDate.of(1993, 4, 12), Gender.MALE
@@ -160,7 +160,7 @@ public class EmployeeServiceTest {
         firstEmployee.setLastName("Kowalski");
         firstEmployee.setGender(Gender.MALE);
         firstEmployee.setDateOfBirth(LocalDate.of(1993, 4, 12));
-        firstEmployee.setSocialSecurityNumberHash("123456789");
+        firstEmployee.setSocialSecurityNumberHash("test-secret-key1");
 
         Employee secondEmployee = new Employee();
         secondEmployee.setId(2L);
@@ -168,7 +168,7 @@ public class EmployeeServiceTest {
         secondEmployee.setLastName("Nowak");
         secondEmployee.setGender(Gender.FEMALE);
         secondEmployee.setDateOfBirth(LocalDate.of(1998, 8, 20));
-        secondEmployee.setSocialSecurityNumberHash("987654321");
+        secondEmployee.setSocialSecurityNumberHash("test-secret-key2");
 
 
         EmployeeResponse firstResponse = new EmployeeResponse(

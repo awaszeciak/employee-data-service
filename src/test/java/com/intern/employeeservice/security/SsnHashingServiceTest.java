@@ -19,7 +19,7 @@ public class SsnHashingServiceTest {
         String firstHash = hashingService.hash("123456789");
         String secondHash = hashingService.hash("123456789");
 
-        assertEquals(firstHash,secondHash);
+        assertEquals(firstHash, secondHash);
     }
 
     @Test

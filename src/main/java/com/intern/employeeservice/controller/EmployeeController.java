@@ -14,32 +14,32 @@ import java.util.List;
 @RestController
 public class EmployeeController {
 
-private final EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
-public EmployeeController(EmployeeService employeeService) {
-    this.employeeService = employeeService;
-}
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
-@PostMapping("/employees")
-public ResponseEntity<EmployeeResponse> createEmployee(@Valid @RequestBody EmployeeCreateRequest request) {
-    EmployeeResponse response = employeeService.createEmployee(request);
+    @PostMapping("/employees")
+    public ResponseEntity<EmployeeResponse> createEmployee(@Valid @RequestBody EmployeeCreateRequest request) {
+        EmployeeResponse response = employeeService.createEmployee(request);
 
-    return ResponseEntity.created(URI.create("/employees/" + response.id())).body(response);
-}
+        return ResponseEntity.created(URI.create("/employees/" + response.id())).body(response);
+    }
 
-@GetMapping("/employees/{id}")
-public ResponseEntity<EmployeeResponse> getEmployeeById(@PathVariable @Positive Long id) {
-    EmployeeResponse response = employeeService.getEmployeeById(id);
+    @GetMapping("/employees/{id}")
+    public ResponseEntity<EmployeeResponse> getEmployeeById(@PathVariable @Positive Long id) {
+        EmployeeResponse response = employeeService.getEmployeeById(id);
 
-    return ResponseEntity.ok(response);
-}
+        return ResponseEntity.ok(response);
+    }
 
-@GetMapping("/employees")
-public ResponseEntity<List<EmployeeResponse>> getAllEmployees() {
-    List<EmployeeResponse> employeeResponses = employeeService.getAllEmployees();
+    @GetMapping("/employees")
+    public ResponseEntity<List<EmployeeResponse>> getAllEmployees() {
+        List<EmployeeResponse> employeeResponses = employeeService.getAllEmployees();
 
-    return ResponseEntity.ok(employeeResponses);
-}
+        return ResponseEntity.ok(employeeResponses);
+    }
 
 
 }

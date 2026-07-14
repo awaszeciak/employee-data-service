@@ -5,7 +5,7 @@ import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
-public record EmployeeCreateRequest (
+public record EmployeeCreateRequest(
         @NotBlank(message = "First name must not be blank")
         @Size(max = 100, message = "First name must not exceed 100 characters")
         String firstName,
