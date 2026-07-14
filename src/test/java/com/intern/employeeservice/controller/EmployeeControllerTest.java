@@ -9,6 +9,7 @@ import com.intern.employeeservice.service.EmployeeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
@@ -205,5 +206,25 @@ public class EmployeeControllerTest {
         mockMvc.perform(get("/employees/abc"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Invalid value for parameter 'id'"));
+    }
+
+    @Test
+    void shouldReturn409WhenDataIntegrityViolationOccurs() throws Exception {
+        EmployeeCreateRequest request = new EmployeeCreateRequest(
+                "Anna",
+                "Nowak",
+                LocalDate.of(1995, 4, 12),
+                Gender.FEMALE,
+                "123456789"
+        );
+
+        when(employeeService.createEmployee(any(EmployeeCreateRequest.class)))
+                .thenThrow(new DataIntegrityViolationException("Duplicate key value"));
+
+        mockMvc.perform(post("/employees")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.message").value("Employee with this SSN already exists"));
     }
 }
