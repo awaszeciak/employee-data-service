@@ -19,8 +19,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -206,6 +205,8 @@ public class EmployeeControllerTest {
         mockMvc.perform(get("/employees/abc"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Invalid value for parameter 'id'"));
+
+        verify(employeeService, never()).createEmployee(any(EmployeeCreateRequest.class));
     }
 
     @Test
@@ -226,5 +227,7 @@ public class EmployeeControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.message").value("Employee with this SSN already exists"));
+
+        verify(employeeService).createEmployee(any(EmployeeCreateRequest.class));
     }
 }
